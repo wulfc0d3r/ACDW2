@@ -1,0 +1,69 @@
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading;
+
+namespace TestCheatBlocker
+{
+    class Program
+    {
+       
+        static void Main(string[] args)
+        {
+            Console.WriteLine("This is a test to find Cheattools");
+
+            /*
+            Maybe doing a blacklist like that?:
+            List<string> cheattoolnames = new List<string>(new string [8] { "cheat", "hack", "hax", "h4x", "Cheat Engine", "hex", "injector", "inj" });
+            */
+
+
+            //loop that search function (on startup of the game while game is running)
+            for (; ; )
+            {
+                //get all process infos
+                Process[] processlist = Process.GetProcesses();
+
+                //pick processes out
+                foreach (Process process in processlist)
+                {
+                    //if process has NOT an empty WindowTitle
+                    if (!String.IsNullOrEmpty(process.MainWindowTitle))
+                    {
+                        //if processname contains something with the letters "cheat" or if something with the titles below is found
+                        if (process.ProcessName.Contains("cheat", System.StringComparison.CurrentCultureIgnoreCase) ||
+                            process.ProcessName.Contains("injector", System.StringComparison.CurrentCultureIgnoreCase) ||
+                            process.ProcessName.Contains("inj", System.StringComparison.CurrentCultureIgnoreCase) ||
+                            process.ProcessName.Contains("hax", System.StringComparison.CurrentCultureIgnoreCase) ||
+                            process.ProcessName.Contains("hack", System.StringComparison.CurrentCultureIgnoreCase) ||
+                            process.ProcessName.Contains("h4x", System.StringComparison.CurrentCultureIgnoreCase) ||
+                            process.ProcessName.Contains("trainer", System.StringComparison.CurrentCultureIgnoreCase) ||
+
+                          //  process.MainWindowTitle.Contains("cheat", System.StringComparison.CurrentCultureIgnoreCase) || 
+                            process.MainWindowTitle.Contains("injector", System.StringComparison.CurrentCultureIgnoreCase) || 
+                            process.MainWindowTitle.Contains("inj", System.StringComparison.CurrentCultureIgnoreCase) || 
+                            process.MainWindowTitle.Contains("hax", System.StringComparison.CurrentCultureIgnoreCase) || 
+                            process.MainWindowTitle.Contains("hack", System.StringComparison.CurrentCultureIgnoreCase) || 
+                            process.MainWindowTitle.Contains("h4x", System.StringComparison.CurrentCultureIgnoreCase) || 
+                            process.MainWindowTitle.Contains("trainer", System.StringComparison.CurrentCultureIgnoreCase))
+                        {
+
+                            //informs if smth is found (Just Debug/Test)
+                            Console.WriteLine("Cheat found");
+
+                            //kill process that is found as Cheat or kill the game instantly
+                        }
+                    }
+                }
+
+                //if memory leak just sleep a bit before loop
+                Thread.Sleep(1000);
+
+            }
+        }
+    }
+}
